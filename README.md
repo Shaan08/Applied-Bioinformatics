@@ -5,21 +5,19 @@ You can use the [editor on GitHub](https://github.com/Shaan08/BioInformatics/edi
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
 ### Markdown
-### Lab 2
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Reading from the commandline
 
-```markdown
-Syntax highlighted code block
+As an example of how to read from the commandline, consider creating a file called "reveal" with this contents
 
-# Header 1
-## Header 2
-### Header 3
+   #! /usr/bin/env python
+   import sys
+   print sys.argv
+and then execute the command
 
-- Bulleted
-- List
+   chmod +x reveal
+to make it executable. Then, try you new program by running (for example)
 
-1. Numbered
-2. List
+   reveal a b c
 
 **Bold** and _Italic_ and `Code` text
 
