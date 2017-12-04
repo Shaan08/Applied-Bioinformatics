@@ -29,3 +29,4 @@ for seq_record in SeqIO.parse(file_name, "fasta"):
 		print seq_record.format("fasta")
 		sequence_count += 1
 print "There are " + str(sequence_count) + " \"KLEEK\" proteins in the test data"
+
