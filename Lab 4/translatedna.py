@@ -13,3 +13,5 @@ for seq_record in SeqIO.parse(file_name, "fasta"):
 	print ">" + seq_record.id
 	DNA = seq_record.seq
 	print DNA.translate()
+
+	
