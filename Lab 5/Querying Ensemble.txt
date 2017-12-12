@@ -1,0 +1,103 @@
+
+1. How many databases are available for cat, felis catus?
+
+   Command:
+   SHOW databases LIKE 'felis%';
+   
+   Result:
+   5 databases (only core databases)
+
+2. Use the show and describe commands to figure what tables are related to describing genes, transcripts, and exons.
+   What information are these tables storing and how do the tables relate to each other?
+
+   Commands:
+   SELECT DATABASE();  # should return null if none is selected
+   USE homo_sapiens_core_55_37;  # Returns database changed
+   SELECT DATABASE();  # Returns that the database is selected
+   SHOW TABLES;  # Returns all tables that exist in database, 83 rows
+
+   There are tables; dna, exon, exon transcript, transcript and gene.
+   exon seems to have the columns;
+   exon_id, seq_region_id, seq_region_start, seq_region_end, seq_region_strand,
+   phase and end_phase.
+
+   All of the columns type are short ints, meaning that no sequence data is found.
+   As the picture in the folder, the sequence is located in one table while the others
+   tables contains descripshow dna;tion used for annotation and describing each gene.
+
+3. How many genes are registered for human? Make a breakdown based on the column "biotype"
+   by using the GROUP BY directive.
+
+   In the table "gene", a column called biotype is found. I will use that to count the
+   amount of genes. NOTE: Using homo_sapiens_core_55_37 database
+
+   Command:
+   SELECT biotype, COUNT(1) FROM gene GROUP BY biotype;
+   Result:
+
++------------------------+----------+
+| biotype                | COUNT(1) |
++------------------------+----------+
+| IG_C_gene              |       21 |
+| IG_D_gene              |       30 |
+| IG_J_gene              |       93 |
+| IG_V_gene              |      217 |
+| miRNA                  |     1702 |
+| misc_RNA               |     1565 |
+| Mt_rRNA                |        2 |
+| Mt_tRNA                |       22 |
+| polymorphic_pseudogene |       12 |
+| processed_transcript   |     6009 |
+| protein_coding         |    23279 |
+| pseudogene             |     8213 |
+| rRNA                   |      462 |
+| snoRNA                 |     1217 |
+| snRNA                  |     1441 |
++------------------------+----------+
+15 rows in set (0.12 s
+
+   Command: SELECT COUNT(1) FROM gene;
+   Result:
+   44285 hits
+
+4. How many processed pseudogenes have a non-empty description string? 
+
+   Gene table has many columns. We are interested in biotype and description.
+   Check every row where biotype has pseudogene and then check if description column is empty.
+
+   Command:
+   SELECT COUNT(1) FROM gene WHERE gene.biotype LIKE '%pseudogene' AND gene.description IS NOT NULL;
+   Result:
+   201 hits
+
+   NOTE: This number seems a bit low! If you have gene.biotype, you only get "pseudogene" and nothing else.
+   However, if you remove NOT from IS NOT NULL, you get thousands of hits. Maybe the particular database has few descriptions?
+   This seems to be the case, since using the command below gives 15925 hits.
+   SELECT COUNT(1) FROM gene WHERE gene.description IS NULL;
+   And using this command gets us 18636 hits.
+   SELECT COUNT(1) FROM gene WHERE gene.description IS NOT NULL;
+
+   Maybe pseudogenes just happens to not have descriptions?
+
+
+5. How many transcripts are associated with the two breast-cancer associated genes BRCA1 (ENSG00000012048) and BRCA2 (ENSG00000139618)?
+   Your solution is supposed to be written as one SQL query. 
+
+   Easy peasy! Just check where the associated genes are in which table/column.
+   Found ids in gene_archive in column gene_stable_id. Each id is associated with transcript --> number of entries with name = transcripts
+   https://www.ensembl.org/Help/View?id=143
+   https://www.ensembl.org/info/docs/api/core/core_schema.html#gene
+   
+   TIP: use SELECT <column_name> FROM <table_name> LIMIT <number of prints>
+
+   SELECT COUNT(1) FROM gene_archive WHERE gene_stable_id LIKE 'ENSG00000012048' OR gene_stable_id LIKE 'ENSG00000139618';
+
+   Result:
+   62 hits 44(55_37 db)
+
+   NOTE: if only ...12048 is choosen, 59 hits and ....139618 has 3 hits.
+   This will of course be different if you are looking at another homo_sapiens_core database!   
+
+
+
+
