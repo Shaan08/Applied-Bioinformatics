@@ -19,7 +19,7 @@ to make it executable. Then, try you new program by running (for example)
 
    reveal a b c
 
-**Bold** and _Italic_ and `Code` text
+**Bold** and _Italic_ and `Code` text 
 
 [Link](url) and ![Image](src)
 ```
